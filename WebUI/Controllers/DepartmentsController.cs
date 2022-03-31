@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebUI.DataAccess;
 using WebUI.DataAccess.EFRepository.DalLayer;
-using WebUI.DataAccess.EFRepository.DalLayer.OracleDb;
-using WebUI.DataAccess.EFRepository.DalLayer.SQLServer;
-using WebUI.DataAccess.EFRepository.Services;
 using WebUI.Entities;
 
 namespace WebUI.Controllers
