@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IDepartmentDal, DepartmentOracleDal>();
+builder.Services.AddSingleton<IDepartmentDal, DepartmentSQLDal>();
 
 var app = builder.Build();
 
