@@ -1,0 +1,39 @@
+﻿@model List<Department>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Departments List</h1>
+
+<a href="/Departments/Create" class="btn btn-primary">
+    Add New
+
+</a>
+<table class="table table-hover">
+
+    <thead>
+        <tr>
+            <th style="width: 5%">Id</th>
+            <th>Name</th>
+            <th style="width: 15%">Process</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var record in Model)
+        {
+            <tr>
+                <td>@record.Id</td>
+                <td>@record.Name</td>
+                <td>
+                    <a class="btn btn-outline-primary btn-sm"   href="/Departments/Create">Add</a>
+                    <a class="btn btn-outline-success btn-sm" href="/Departments/Update/@record.Id">Edit</a>
+                    <a class="btn btn-outline-danger btn-sm"  href="/Departments/delete/@record.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

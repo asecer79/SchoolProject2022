@@ -1,0 +1,17 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<form method="post" action="/Departments/create">
+    <div class="mb-3">
+        <label class="form-label">Department Name</label>
+        <input type="text" class="form-control"  name="name">
+        
+    </div>
+  
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

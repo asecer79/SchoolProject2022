@@ -1,0 +1,18 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Delete</h1>
+<form method="post" action="/Departments/delete">
+    
+    @Html.Hidden("Id")
+    @Html.Hidden("Name")
+    <div class="mb-3">
+        <label class="form-label">Department Name : @Model.Name, will be deleted</label>
+ 
+    </div>
+
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>

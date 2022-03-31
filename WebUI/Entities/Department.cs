@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebUI.Entities
 {
-    [Table("Department")]
+ 
     public class Department
     {
         [Key]
