@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IDepartmentDal, DepartmentSQLDal>();
+builder.Services.AddSingleton<IStudentDal, StudentDal>();
 
 var app = builder.Build();
 
