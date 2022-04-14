@@ -49,9 +49,20 @@ namespace WebUI.DataAccess.EFRepository.DalLayer.SQLServer
         {
             using (var dbContext = new SchoolProjectDbContext())
             {
-                var result = dbContext.Students.ToList();
+                var result = from p in dbContext.Students
+                   select new Student()
+                   {
+                       Id = p.Id,
+                       PhotoPath = p.PhotoPath,
+                       FirstName = p.FirstName,
+                       LastName = p.LastName,
+                       DepartmentId = p.DepartmentId,
+                       Department = p.Department
 
-                return result;
+                   };
+
+
+                return result.ToList();
             }
 
            
