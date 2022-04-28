@@ -1,16 +1,11 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
-using WebUI.DataAccess.EFRepository;
+using System.Diagnostics;
+using System.Text.Json;
+using WebUI.Caching;
 using WebUI.DataAccess.EFRepository.DalLayer;
 using WebUI.Entities;
 
@@ -18,21 +13,18 @@ namespace WebUI.Controllers
 {
     public class StudentsController : Controller
     {
-        private ConnectionMultiplexer connectionMultiplexer;
-        private readonly IDatabase _redisCacheDatabase;
+        readonly ICacheService _cacheService;
 
         private readonly IStudentDal _studentDal;
         private readonly IDepartmentDal _departmentDal;
-        IMemoryCache _memoryCache;
 
-        public StudentsController(IStudentDal studentDal, IDepartmentDal departmentDal, IMemoryCache memoryCache)
+        public StudentsController(IStudentDal studentDal, IDepartmentDal departmentDal, ICacheService cacheService)
         {
             _studentDal = studentDal;
             _departmentDal = departmentDal;
-            _memoryCache = memoryCache;
+            _cacheService = cacheService;
+            // _memoryCache = memoryCache;
 
-            connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
-            _redisCacheDatabase = connectionMultiplexer.GetDatabase(0);
         }
 
 
@@ -40,39 +32,22 @@ namespace WebUI.Controllers
         public IActionResult Index()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            List<Student> list = new List<Student>();
 
-            var data = _redisCacheDatabase.StringGet("_studentDal.GetList");
+            List<Student> list = null;
 
-            List<Student> result = null;
+            var key = "_studentDal.GetList";
 
-            if (data.IsNull != true)
+            var exist = _cacheService.Exists(key);
+
+            if (exist)
             {
-                result = JsonSerializer.Deserialize<List<Student>>(data);
+                list = _cacheService.Get<List<Student>>(key);
             }
 
-
-
-            if (result == null)
-            {
-                for (int i = 0; i < 30000; i++)
-                {
-                    list = _studentDal.GetList();
-                }
-
-                var stringData = JsonSerializer.Serialize(list);
-
-                _redisCacheDatabase.StringSet("_studentDal.GetList",stringData);
-            }
             else
             {
-                for (int i = 0; i < 30000; i++)
-                {
-                    var data2 = _redisCacheDatabase.StringGet("_studentDal.GetList");
-
-                    list = JsonSerializer.Deserialize<List<Student>>(data2);
-                   
-                }
+                list = _studentDal.GetList();
+                _cacheService.Set<List<Student>>(key, list);
             }
 
 
@@ -161,7 +136,8 @@ namespace WebUI.Controllers
                     student.PhotoPath = fullFilePath;
                 }
 
-                _studentDal.Add(student);
+                //  _redisCacheDatabase.KeyDelete("_studentDal.GetList");
+                _cacheService.Remove("_studentDal.GetList");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -235,6 +211,8 @@ namespace WebUI.Controllers
 
                 _studentDal.Update(student);
 
+                _cacheService.Remove("_studentDal.GetList");
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -268,6 +246,7 @@ namespace WebUI.Controllers
             var student = _studentDal.Get(id);
 
             _studentDal.Delete(student);
+            _cacheService.Remove("_studentDal.GetList");
             return RedirectToAction(nameof(Index));
         }
 
