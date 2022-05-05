@@ -26,7 +26,6 @@ namespace WebUI.Controllers
             _departmentDal = departmentDal;
             _cacheService = cacheService;
             // _memoryCache = memoryCache;
-
         }
 
 
