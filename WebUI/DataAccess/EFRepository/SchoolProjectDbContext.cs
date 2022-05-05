@@ -10,6 +10,10 @@ namespace WebUI.DataAccess.EFRepository
             optionsBuilder.UseSqlServer("data source=.; initial catalog =SchoolProjectDb;Trusted_Connection=True;");
         }
 
+        public DbSet<User>? Users { get; set; }
+        public DbSet<OperationClaim>? OperationClaims { get; set; }
+        public DbSet<UserOperationClaim>? UserOperationClaims { get; set; }
+
         public DbSet<Course>? Courses { get; set; }
         public DbSet<Student>? Students { get; set; }
         public DbSet<Department>? Departments { get; set; }

@@ -1,9 +1,5 @@
-using System.Diagnostics;
-using System.Drawing.Text;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using WebUI.Caching;
 using WebUI.DataAccess.EFRepository.DalLayer;
-using WebUI.DataAccess.EFRepository.DalLayer.OracleDb;
 using WebUI.DataAccess.EFRepository.DalLayer.SQLServer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,40 +43,40 @@ app.MapControllerRoute(
 
 //});
 
-app.Use(async (context, next) =>
-{
+//app.Use(async (context, next) =>
+//{
 
-    await context.Response.WriteAsync("M1 req\n");
+//    await context.Response.WriteAsync("M1 req\n");
 
-    await next();
+//    await next();
 
-    await context.Response.WriteAsync("M1 res\n");
-});
+//    await context.Response.WriteAsync("M1 res\n");
+//});
 
-app.Use(async (context, next) =>
-{
+//app.Use(async (context, next) =>
+//{
 
-    await context.Response.WriteAsync("M2 req\n");
+//    await context.Response.WriteAsync("M2 req\n");
 
-    await next();
+//    await next();
 
-    await context.Response.WriteAsync("M2 res\n");
-});
+//    await context.Response.WriteAsync("M2 res\n");
+//});
 
-app.Use(async (context, next) =>
-{
+//app.Use(async (context, next) =>
+//{
 
-    await context.Response.WriteAsync("M3 req\n");
+//    await context.Response.WriteAsync("M3 req\n");
 
-    await next();
+//    await next();
 
-    await context.Response.WriteAsync("M3 res\n");
-});
+//    await context.Response.WriteAsync("M3 res\n");
+//});
 
 
-app.Run(async context =>
-{
-    await context.Response.WriteAsync("Last\n");
-});
+//app.Run(async context =>
+//{
+//    await context.Response.WriteAsync("Last\n");
+//});
 
 app.Run();
