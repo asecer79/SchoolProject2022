@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using WebUI.Caching;
 using WebUI.DataAccess.EFRepository.DalLayer;
 using WebUI.DataAccess.EFRepository.DalLayer.SQLServer;
@@ -5,7 +7,11 @@ using WebUI.DataAccess.EFRepository.DalLayer.SQLServer;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(context =>
+{
+    //context.Filters.Add(new AuthorizeFilter());
+});
+
 builder.Services.AddMemoryCache();
 
 
@@ -13,6 +19,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ICacheService, MemoryCacheService>();
 
 builder.Services.AddSingleton<IDepartmentDal, DepartmentSQLDal>();
+
 builder.Services.AddSingleton<IStudentDal, StudentDal>();
 
 var app = builder.Build();
@@ -30,6 +37,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

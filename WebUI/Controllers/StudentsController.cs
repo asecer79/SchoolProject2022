@@ -5,12 +5,14 @@ using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
 using System.Diagnostics;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using WebUI.Caching;
 using WebUI.DataAccess.EFRepository.DalLayer;
 using WebUI.Entities;
 
 namespace WebUI.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         readonly ICacheService _cacheService;
@@ -29,6 +31,7 @@ namespace WebUI.Controllers
 
 
         //redis cache
+      //  [AllowAnonymous]
         public IActionResult Index()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -109,6 +112,8 @@ namespace WebUI.Controllers
         }
 
         // GET: Students/Create
+
+        [Authorize(Roles = "CreateStudent")]
         public IActionResult Create()
         {
             ViewData["DepartmentId"] = new SelectList(_departmentDal.GetList(), "Id", "Name");
@@ -121,6 +126,7 @@ namespace WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CreateStudent")]
         public IActionResult Create(Student student)
         {
             var files = Request.Form.Files;
@@ -172,6 +178,7 @@ namespace WebUI.Controllers
         }
 
         // GET: Students/Edit/5
+        [Authorize(Roles = "UpdateStudent")]
         public IActionResult Edit(int id)
         {
             if (id == null)
