@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using StackExchange.Redis;
 using WebUI.DataAccess.EFRepository.DalLayer;
 using WebUI.Entities;
 
 namespace WebUI.Controllers
 {
+    [Authorize]
     public class DepartmentsController : Controller
     {
         private readonly IDepartmentDal _departmentDal;
@@ -21,12 +24,14 @@ namespace WebUI.Controllers
             return View(list);
         }
 
+        [Authorize(Roles= "CreateDepartment")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize("CreateDepartment")]
         [HttpPost]
         public IActionResult Create(Department department)
         {
@@ -42,6 +47,7 @@ namespace WebUI.Controllers
             return View();
         }
 
+        [Authorize(Roles = "EditDepartment")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -49,6 +55,7 @@ namespace WebUI.Controllers
             return View(department);
         }
 
+        [Authorize(Roles = "EditDepartment")]
         [HttpPost]
         public IActionResult Update(Department department)
         {
@@ -65,6 +72,7 @@ namespace WebUI.Controllers
             return View();
         }
 
+        [Authorize(Roles = "DeleteDepartment")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -72,6 +80,7 @@ namespace WebUI.Controllers
             return View(department);
         }
 
+        [Authorize(Roles = "DeleteDepartment")]
         [HttpPost]
         public IActionResult Delete(Department department)
         {

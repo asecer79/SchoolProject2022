@@ -7,10 +7,14 @@
 
 <h1>Departments List</h1>
 
-<a href="/Departments/Create" class="btn btn-primary">
+@if (User.IsInRole("CreateDepartment"))
+{
+    <a href="/Departments/Create" class="btn btn-primary">
     Add New
 
 </a>
+}
+
 <table class="table table-hover">
 
     <thead>
@@ -28,9 +32,19 @@
                 <td>@record.Id</td>
                 <td>@record.Name</td>
                 <td>
-                    <a class="btn btn-outline-primary btn-sm"   href="/Departments/Create">Add</a>
+                @if (User.IsInRole("CreateDepartment"))
+                {
+                    <a class="btn btn-outline-primary btn-sm" href="/Departments/Create">Add</a>
+                }
+
+                @if (User.IsInRole("EditDepartment"))
+                {
                     <a class="btn btn-outline-success btn-sm" href="/Departments/Update/@record.Id">Edit</a>
-                    <a class="btn btn-outline-danger btn-sm"  href="/Departments/delete/@record.Id">Delete</a>
+                }
+                @if (User.IsInRole("DeleteDepartment"))
+                {
+                    <a class="btn btn-outline-danger btn-sm" href="/Departments/delete/@record.Id">Delete</a>
+                }
                 </td>
             </tr>
         }

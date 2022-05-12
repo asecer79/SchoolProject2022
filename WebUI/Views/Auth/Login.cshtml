@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<div>
+    <form asp-controller="Auth" asp-action="Login" method="post">
+        <input type="text" placeholder="UserName" name="userName"/>
+        <br/>
+        <input type="password" placeholder="Password" name="password"/>
+        <br/>
+        <label style="color: red">@ViewBag.LoginResult</label>
+        <br/>
+        <input type="submit" value="Login"/>
+
+    </form>
+</div>

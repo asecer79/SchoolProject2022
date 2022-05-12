@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using WebUI.AuthHelpers;
 using WebUI.Caching;
 using WebUI.DataAccess.EFRepository.DalLayer;
 using WebUI.DataAccess.EFRepository.DalLayer.SQLServer;
@@ -15,12 +15,34 @@ builder.Services.AddControllersWithViews(context =>
 builder.Services.AddMemoryCache();
 
 
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSingleton<ICacheService, MemoryCacheService>();
 
 builder.Services.AddSingleton<IDepartmentDal, DepartmentSQLDal>();
 
 builder.Services.AddSingleton<IStudentDal, StudentDal>();
+
+builder.Services.AddSingleton<IUserDal, UserDal>();
+
+builder.Services.AddSingleton<AuthHelper>();
+
+var configuration = builder.Configuration;
+
+var cookieAuthOptions = configuration.GetSection("CookieAuthOptions").Get<CookieAuthOptions>();
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.Cookie.Name = cookieAuthOptions.Name;
+    options.LoginPath = cookieAuthOptions.LoginPath;
+    options.LogoutPath = cookieAuthOptions.LogOutPath;
+    options.AccessDeniedPath = cookieAuthOptions.AccessDeniedPath;
+    options.SlidingExpiration=cookieAuthOptions.SlidingExpiration;
+    options.ExpireTimeSpan = TimeSpan.FromSeconds(cookieAuthOptions.TimeOut);
+
+});
+
 
 var app = builder.Build();
 
@@ -35,6 +57,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseCookiePolicy();
 
 app.UseRouting();
 
