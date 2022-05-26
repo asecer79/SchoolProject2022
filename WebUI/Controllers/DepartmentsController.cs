@@ -1,8 +1,7 @@
-﻿using Entities.Concrete;
+﻿using DataAccess.Abstract;
+using Entities.Concrete.School;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StackExchange.Redis;
-using WebUI.DataAccess.EFRepository.DalLayer;
 
 
 namespace WebUI.Controllers

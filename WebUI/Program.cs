@@ -1,8 +1,8 @@
+using DataAccess.Abstract;
+using DataAccess.Concrete.Ef;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using WebUI.AuthHelpers;
 using WebUI.Caching;
-using WebUI.DataAccess.EFRepository.DalLayer;
-using WebUI.DataAccess.EFRepository.DalLayer.SQLServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSingleton<ICacheService, MemoryCacheService>();
 
-builder.Services.AddSingleton<IDepartmentDal, DepartmentSQLDal>();
+builder.Services.AddSingleton<IDepartmentDal, DepartmentDal>();
 
 builder.Services.AddSingleton<IStudentDal, StudentDal>();
 

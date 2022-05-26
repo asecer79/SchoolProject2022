@@ -1,9 +1,8 @@
-﻿using System.Security.Claims;
-using Entities.Concrete;
+﻿using DataAccess.Abstract;
+using Entities.Concrete.School;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using WebUI.DataAccess.EFRepository.DalLayer;
+using System.Security.Claims;
 
 namespace WebUI.AuthHelpers
 {
