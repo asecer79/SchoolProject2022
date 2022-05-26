@@ -5,10 +5,11 @@ using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
 using System.Diagnostics;
 using System.Text.Json;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using WebUI.Caching;
 using WebUI.DataAccess.EFRepository.DalLayer;
-using WebUI.Entities;
+
 
 namespace WebUI.Controllers
 {

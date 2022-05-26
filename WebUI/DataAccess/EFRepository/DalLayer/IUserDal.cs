@@ -1,5 +1,5 @@
-﻿using WebUI.DataAccess.EFRepository.Services;
-using WebUI.Entities;
+﻿using Entities.Concrete;
+using WebUI.DataAccess.EFRepository.Services;
 
 namespace WebUI.DataAccess.EFRepository.DalLayer
 {

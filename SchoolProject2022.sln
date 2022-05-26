@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{765EB1C5-6F33-425C-9936-03EBD3F60967}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{765EB1C5-6F33-425C-9936-03EBD3F60967}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{604143EC-2D4E-4533-8C84-F3E4D91F92F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{765EB1C5-6F33-425C-9936-03EBD3F60967}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{765EB1C5-6F33-425C-9936-03EBD3F60967}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{765EB1C5-6F33-425C-9936-03EBD3F60967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{604143EC-2D4E-4533-8C84-F3E4D91F92F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{604143EC-2D4E-4533-8C84-F3E4D91F92F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{604143EC-2D4E-4533-8C84-F3E4D91F92F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{604143EC-2D4E-4533-8C84-F3E4D91F92F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebUI.Entities
+namespace Entities.Concrete
 {
     public class User
     {

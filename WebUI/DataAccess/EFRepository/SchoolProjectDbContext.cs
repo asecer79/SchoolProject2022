@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebUI.Entities;
+﻿using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebUI.DataAccess.EFRepository
 {

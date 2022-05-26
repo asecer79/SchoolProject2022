@@ -1,4 +1,4 @@
-﻿namespace WebUI.Entities
+﻿namespace Entities.Concrete
 {
 	public class ExamType
     {

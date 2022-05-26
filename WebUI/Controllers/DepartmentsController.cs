@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 using WebUI.DataAccess.EFRepository.DalLayer;
-using WebUI.Entities;
+
 
 namespace WebUI.Controllers
 {

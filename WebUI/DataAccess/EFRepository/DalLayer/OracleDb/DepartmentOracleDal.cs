@@ -1,4 +1,4 @@
-﻿using WebUI.Entities;
+﻿using Entities.Concrete;
 
 namespace WebUI.DataAccess.EFRepository.DalLayer.OracleDb
 {
