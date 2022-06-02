@@ -11,7 +11,6 @@ namespace Entities.Concrete.School
 
         [Required]
         public string Name { get; set; }
-
-        public DateTime? ProcessDate { get; set; }
+        
     }
 }

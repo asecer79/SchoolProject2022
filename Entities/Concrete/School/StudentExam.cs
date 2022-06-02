@@ -8,6 +8,5 @@ namespace Entities.Concrete.School
         public int StudentId { get; set; }
         public int ExamId { get; set; }
         public double Grade { get; set; }
-        public DateTime? ProcessDate { get; set; }
     }
 }

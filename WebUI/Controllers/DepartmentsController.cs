@@ -1,30 +1,29 @@
-﻿using DataAccess.Abstract;
+﻿using Business.Abstract;
 using Entities.Concrete.School;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace WebUI.Controllers
 {
     [Authorize]
     public class DepartmentsController : Controller
     {
-        private readonly IDepartmentDal _departmentDal;
+        private readonly IDepartmentService _departmentService;
 
-        public DepartmentsController(IDepartmentDal departmentDal)
+        public DepartmentsController(IDepartmentService departmentService)
         {
-            _departmentDal = departmentDal;
+            _departmentService = departmentService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             //List<Department>;
-            var list = _departmentDal.GetList();
+            var list = _departmentService.GetList(null);
             return View(list);
         }
 
-        [Authorize(Roles= "CreateDepartment")]
+        [Authorize(Roles = "CreateDepartment")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -39,7 +38,7 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                _departmentDal.Add(department);
+                _departmentService.Add(department);
 
                 return RedirectToAction("Index");
             }
@@ -51,7 +50,7 @@ namespace WebUI.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var department = _departmentDal.Get(id);
+            var department = _departmentService.Get(p=>p.Id==id);
             return View(department);
         }
 
@@ -64,7 +63,7 @@ namespace WebUI.Controllers
             if (ModelState.IsValid)
             {
 
-                _departmentDal.Update(department);
+                _departmentService.Update(department);
 
                 return RedirectToAction("Index");
             }
@@ -76,7 +75,7 @@ namespace WebUI.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var department = _departmentDal.Get(id);
+            var department = _departmentService.Get(p=>p.Id==id);
             return View(department);
         }
 
@@ -88,7 +87,7 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                _departmentDal.Delete(department);
+                _departmentService.Delete(department);
 
 
                 return RedirectToAction("Index");

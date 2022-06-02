@@ -1,20 +1,21 @@
-﻿using DataAccess.Abstract;
+﻿using System.Security.Claims;
+using Business.Abstract;
 using Entities.Concrete.School;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
-namespace WebUI.AuthHelpers
+namespace Business.Security
 {
     public class AuthHelper
     {
-        private IUserDal _userDal;
-        private IHttpContextAccessor _httpContextAccessor;
+        readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthHelper(IUserDal userDal, IHttpContextAccessor httpContextAccessor)
+        public AuthHelper(IHttpContextAccessor httpContextAccessor, IUserService userService)
         {
-            _userDal = userDal;
             _httpContextAccessor = httpContextAccessor;
+            _userService = userService;
         }
 
         public List<Claim> GetUserClaims(User user)
@@ -26,7 +27,7 @@ namespace WebUI.AuthHelpers
                 new Claim(ClaimTypes.NameIdentifier,user.FirstName+" "+user.LastName),
             };
 
-            var operationClaims = _userDal.GetOperationClaims(user.Id);
+            var operationClaims = _userService.GetOperationClaims(user.Id);
 
             foreach (var claim in operationClaims)
             {
@@ -38,7 +39,7 @@ namespace WebUI.AuthHelpers
 
         public async Task<bool> SecureSignInAsync(string userName, string password)
         {
-            var user = _userDal.GetUserByEmailAndPassword(userName, password);
+            var user = _userService.GetUserByEmailAndPassword(userName, password);
 
             if (user!=null)
             {

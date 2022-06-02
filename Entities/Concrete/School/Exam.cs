@@ -10,6 +10,5 @@ namespace Entities.Concrete.School
         public int SemesterId { get; set; }
         public DateTime ExamDate { get; set; }
         public int Duration { get; set; }
-        public DateTime? ProcessDate { get; set; }
     }
 }

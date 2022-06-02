@@ -1,4 +1,4 @@
-﻿namespace WebUI.AuthHelpers
+﻿namespace Business.Security
 {
     public class CookieAuthOptions
     {

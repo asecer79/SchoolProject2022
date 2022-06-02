@@ -1,28 +1,27 @@
-﻿#nullable disable
-using DataAccess.Abstract;
+﻿
+using Business.Abstract;
+using Business.Caching;
 using Entities.Concrete.School;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
-using WebUI.Caching;
 
 
 namespace WebUI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class StudentsController : Controller
     {
         readonly ICacheService _cacheService;
 
-        private readonly IStudentDal _studentDal;
-        private readonly IDepartmentDal _departmentDal;
+        private readonly IStudentService _studentService;
+        readonly IDepartmentService _departmentService;
 
-        public StudentsController(IStudentDal studentDal, IDepartmentDal departmentDal, ICacheService cacheService)
+        public StudentsController(ICacheService cacheService, IStudentService studentService, IDepartmentService departmentService)
         {
-            _studentDal = studentDal;
-            _departmentDal = departmentDal;
             _cacheService = cacheService;
+            _studentService = studentService;
+            _departmentService = departmentService;
             // _memoryCache = memoryCache;
         }
 
@@ -46,7 +45,7 @@ namespace WebUI.Controllers
 
             else
             {
-                list = _studentDal.GetList();
+                 list = _studentService.GetList(null);
                 _cacheService.Set<List<Student>>(key, list);
             }
 
@@ -103,17 +102,17 @@ namespace WebUI.Controllers
                 return NotFound();
             }
 
-            var record = _studentDal.Get(id);
+            var record = _studentService.Get(p=>p.Id==id);
 
             return View(record);
         }
 
         // GET: Students/Create
 
-        [Authorize(Roles = "CreateStudent")]
+        //[Authorize(Roles = "CreateStudent")]
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_departmentDal.GetList(), "Id", "Name");
+            ViewData["DepartmentId"] = new SelectList(_studentService.GetList(null), "Id", "Name");
             //ViewData["DepartmentId"] = _departmentDal.GetList();
             return View();
         }
@@ -123,14 +122,14 @@ namespace WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "CreateStudent")]
+        //[Authorize(Roles = "CreateStudent")]
         public IActionResult Create(Student student)
         {
             var files = Request.Form.Files;
 
             if (ModelState.IsValid)
             {
-                student = _studentDal.Add(student);
+                student = _studentService.Add(student);
 
                 if (files.Count > 0)
                 {
@@ -145,7 +144,7 @@ namespace WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DepartmentId"] = _departmentDal.GetList();
+            ViewData["DepartmentId"] = _studentService.GetList(null);
             return View(student);
         }
 
@@ -175,7 +174,7 @@ namespace WebUI.Controllers
         }
 
         // GET: Students/Edit/5
-        [Authorize(Roles = "UpdateStudent")]
+        //[Authorize(Roles = "UpdateStudent")]
         public IActionResult Edit(int id)
         {
             if (id == null)
@@ -183,13 +182,13 @@ namespace WebUI.Controllers
                 return NotFound();
             }
 
-            var student = _studentDal.Get(id);
+            var student = _studentService.Get(p=>p.Id==id);
 
             if (student == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_departmentDal.GetList(), "Id", "Name", student.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_studentService.GetList(null), "Id", "Name", student.DepartmentId);
             //ViewData["DepartmentId"] = _departmentDal.GetList();
             return View(student);
         }
@@ -213,14 +212,14 @@ namespace WebUI.Controllers
                 }
 
 
-                _studentDal.Update(student);
+                _studentService.Update(student);
 
                 _cacheService.Remove("_studentDal.GetList");
 
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DepartmentId"] = new SelectList(_departmentDal.GetList(), "Id", "Name", student.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_departmentService.GetList(null), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
@@ -232,7 +231,7 @@ namespace WebUI.Controllers
                 return NotFound();
             }
 
-            var student = _studentDal.Get(id);
+            var student = _studentService.Get(p=>p.Id==id);
 
             if (student == null)
             {
@@ -247,9 +246,9 @@ namespace WebUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var student = _studentDal.Get(id);
+            var student = _studentService.Get(p=>p.Id==id);
 
-            _studentDal.Delete(student);
+            _studentService.Delete(student);
             _cacheService.Remove("_studentDal.GetList");
             return RedirectToAction(nameof(Index));
         }

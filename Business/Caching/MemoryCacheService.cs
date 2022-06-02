@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
 
-namespace WebUI.Caching
+namespace Business.Caching
 {
     public class MemoryCacheService:ICacheService
     {

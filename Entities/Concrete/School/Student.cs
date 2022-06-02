@@ -23,7 +23,6 @@ namespace Entities.Concrete.School
 
 
         public string? PhotoPath { get; set; }
-
-        public DateTime? ProcessDate { get; set; }
+        
     }
 }

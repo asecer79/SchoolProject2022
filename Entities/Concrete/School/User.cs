@@ -13,7 +13,6 @@ namespace Entities.Concrete.School
         public string? Password { get; set; }
 
         public ICollection<OperationClaim>? OperationClaims { get; set; }
-
-        public DateTime? ProcessDate { get; set; }
+        
     }
 }

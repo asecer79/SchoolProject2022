@@ -1,115 +1,28 @@
-using DataAccess.Abstract;
-using DataAccess.Concrete.Ef;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using WebUI.AuthHelpers;
-using WebUI.Caching;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Business.DependencyResolver;
 
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews(context =>
+namespace WebUI
 {
-    //context.Filters.Add(new AuthorizeFilter());
-});
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-builder.Services.AddMemoryCache();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
 
-
-builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddSingleton<ICacheService, MemoryCacheService>();
-
-builder.Services.AddSingleton<IDepartmentDal, DepartmentDal>();
-
-builder.Services.AddSingleton<IStudentDal, StudentDal>();
-
-builder.Services.AddSingleton<IUserDal, UserDal>();
-
-builder.Services.AddSingleton<AuthHelper>();
-
-var configuration = builder.Configuration;
-
-var cookieAuthOptions = configuration.GetSection("CookieAuthOptions").Get<CookieAuthOptions>();
-
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-{
-    options.Cookie.Name = cookieAuthOptions.Name;
-    options.LoginPath = cookieAuthOptions.LoginPath;
-    options.LogoutPath = cookieAuthOptions.LogOutPath;
-    options.AccessDeniedPath = cookieAuthOptions.AccessDeniedPath;
-    options.SlidingExpiration=cookieAuthOptions.SlidingExpiration;
-    options.ExpireTimeSpan = TimeSpan.FromSeconds(cookieAuthOptions.TimeOut);
-
-});
-
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureContainer<ContainerBuilder>(builder =>
+                {
+                    builder.RegisterModule(new AutofacDIResolver());
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseCookiePolicy();
-
-app.UseRouting();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-//app.UseExceptionHandler(async (context) =>
-//{ 
-
-//});
-
-//app.Use(async (context, next) =>
-//{
-
-//    await context.Response.WriteAsync("M1 req\n");
-
-//    await next();
-
-//    await context.Response.WriteAsync("M1 res\n");
-//});
-
-//app.Use(async (context, next) =>
-//{
-
-//    await context.Response.WriteAsync("M2 req\n");
-
-//    await next();
-
-//    await context.Response.WriteAsync("M2 res\n");
-//});
-
-//app.Use(async (context, next) =>
-//{
-
-//    await context.Response.WriteAsync("M3 req\n");
-
-//    await next();
-
-//    await context.Response.WriteAsync("M3 res\n");
-//});
-
-
-//app.Run(async context =>
-//{
-//    await context.Response.WriteAsync("Last\n");
-//});
-
-app.Run();

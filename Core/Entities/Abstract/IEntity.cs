@@ -8,7 +8,7 @@ namespace Core.Entities.Abstract
 {
     public interface IEntity
     {
-        public DateTime? ProcessDate { get; set; }
+        //public DateTime? ProcessDate { get; set; }
 
         //public string Show();
     }

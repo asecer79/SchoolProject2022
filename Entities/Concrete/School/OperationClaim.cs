@@ -8,6 +8,5 @@ namespace Entities.Concrete.School
         [Key]
         public int Id { get; set; }
         public string? Name { get; set; }
-        public DateTime? ProcessDate { get; set; }
     }
 }

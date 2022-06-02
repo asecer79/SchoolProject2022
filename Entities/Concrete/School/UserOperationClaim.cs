@@ -20,7 +20,6 @@ namespace Entities.Concrete.School
 
         [ForeignKey("OperationClaimId")]
         public OperationClaim? OperationClaim { get; set; }
-
-        public DateTime? ProcessDate { get; set; }
+        
     }
 }

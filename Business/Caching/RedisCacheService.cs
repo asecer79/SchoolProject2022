@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using StackExchange.Redis;
 
-namespace WebUI.Caching
+namespace Business.Caching
 {
     public class RedisCacheService : ICacheService
     {

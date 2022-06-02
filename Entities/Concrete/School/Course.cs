@@ -20,8 +20,7 @@ namespace Entities.Concrete.School
 
         [Required]
         public string Name { get; set; }
-
-        public DateTime? ProcessDate { get; set; }
+        
         public string Show()
         {
             throw new NotImplementedException();

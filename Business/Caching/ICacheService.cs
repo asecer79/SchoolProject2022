@@ -1,4 +1,4 @@
-﻿namespace WebUI.Caching
+﻿namespace Business.Caching
 {
     public interface ICacheService
     {

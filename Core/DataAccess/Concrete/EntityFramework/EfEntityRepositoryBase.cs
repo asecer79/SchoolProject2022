@@ -24,13 +24,21 @@ namespace Core.DataAccess.Concrete.EntityFramework
             }
         }
 
-        public IList<TEntity> GetList(Expression<Func<TEntity, bool>> filter)
+        public IList<TEntity> GetList(Expression<Func<TEntity, bool>>? filter)
         {
             using (var context = new TContext())
             {
-                var records = context.Set<TEntity>().Where(filter).ToList();
+                if (filter==null)
+                {
+                    var records = context.Set<TEntity>().ToList();
+                    return records;
+                }
+                else
+                {
+                    var records = context.Set<TEntity>().Where(filter).ToList();
+                    return records;
+                }
 
-                return records;
             }
         }
 

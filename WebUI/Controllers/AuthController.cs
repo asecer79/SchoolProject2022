@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebUI.AuthHelpers;
+﻿using Business.Security;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
 {
     public class AuthController : Controller
     {
-        private AuthHelper _authHelper;
+        private readonly AuthHelper _authHelper;
 
         public AuthController(AuthHelper authHelper)
         {
